@@ -52,14 +52,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
             )
           : [];
 
-        // Browser storage can only be read after the page loads, so this is needed
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCart(validItems);
       }
     } catch (error) {
       console.error("Failed to load stored cart:", error);
     } finally {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoaded(true);
     }
   }, []);
