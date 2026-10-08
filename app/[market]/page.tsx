@@ -10,7 +10,6 @@ type HomeProps = {
   params: Promise<{ market: string }>;
 };
 
-// This runs on the server and fills in the <title> and description for Google
 export async function generateMetadata({
   params,
 }: HomeProps): Promise<Metadata> {
@@ -25,13 +24,11 @@ export async function generateMetadata({
 }
 
 export default async function Home({ params }: HomeProps) {
-  // 1. Get the market code from the URL ("ng", "us", ...)
+  // Get the market code from the URL ("ng", "us", ...)
   const { market: marketCode } = await params;
 
-  // 2. Get that market's settings
   const market = getMarket(marketCode)!;
 
-  // 3. Turn the list of featured slugs into full service objects
   const featured: Service[] = [];
   for (const slug of market.featured) {
     const service = getService(slug);
@@ -61,15 +58,14 @@ export default async function Home({ params }: HomeProps) {
         <h2 id="cats" className="text-2xl font-bold">
           Shop by category
         </h2>
-        <ul className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
+        <ul className="mt-4 flex flex-wrap gap-3">
           {CATEGORIES.map((category) => (
             <li key={category.id}>
               <Link
                 href={`/${market.code}/services?category=${category.id}`}
-                className="block h-full rounded-xl border border-ink/10 bg-white p-4 hover:border-brand"
+                className="inline-block rounded-full border border-ink/20 bg-white px-6 py-1 font-semibold transition-colors hover:border-brand hover:bg-brand hover:text-white"
               >
-                <span className="block font-bold">{category.label}</span>
-                <span className="text-sm text-ink/60">{category.tagline}</span>
+                {category.label}
               </Link>
             </li>
           ))}

@@ -8,7 +8,7 @@ export function MarketSwitcher({ current }: { current: MarketCode }) {
   const router = useRouter();
 
   function change(code: string) {
-    const search = window.location.search.slice(1); // read at click time: keeps the page statically renderable
+    const search = window.location.search.slice(1);
     const rest = pathname.split("/").slice(2).join("/");
     router.push(
       `/${code}${rest ? `/${rest}` : ""}${search ? `?${search}` : ""}`,
@@ -25,7 +25,7 @@ export function MarketSwitcher({ current }: { current: MarketCode }) {
       >
         {MARKET_CODES.map((c) => (
           <option key={c} value={c}>
-            {MARKETS[c].flag} {MARKETS[c].country} ({MARKETS[c].currency})
+            {MARKETS[c].country} ({MARKETS[c].currency})
           </option>
         ))}
       </select>
