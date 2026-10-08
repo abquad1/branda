@@ -37,25 +37,36 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     try {
-      const storedCart = localStorage.getItem("cart");
+      const storedCart = localStorage.getItem("branda-cart-v1");
+
       if (storedCart) {
         const parsedCart = JSON.parse(storedCart);
-        if (Array.isArray(parsedCart)) {
-          setCart(parsedCart);
-        } else {
-          localStorage.removeItem("cart"); // discard corrupted data
-        }
+
+        // Keep only items that have the shape we expect
+        const validItems = Array.isArray(parsedCart)
+          ? parsedCart.filter(
+              (item) =>
+                typeof item.key === "string" &&
+                typeof item.qty === "number" &&
+                typeof item.unitUsd === "number",
+            )
+          : [];
+
+        // Browser storage can only be read after the page loads, so this is needed
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setCart(validItems);
       }
     } catch (error) {
       console.error("Failed to load stored cart:", error);
     } finally {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoaded(true);
     }
   }, []);
 
   useEffect(() => {
     if (!isLoaded) return;
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("branda-cart-v1", JSON.stringify(cart));
   }, [cart, isLoaded]);
 
   const addToCart = (item: Omit<CartItemType, "qty">, qty: number) => {
