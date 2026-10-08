@@ -8,7 +8,7 @@ import { CategoryNav, CategoryNavLinks } from "./category-nav";
 export function Header({ market }: { market: Market }) {
   return (
     <header className="sticky top-0 z-30 border-b border-ink/10 bg-paper/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center gap-24 px-4 py-3">
+      <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
         <Link
           href={`/${market.code}`}
           className="text-xl font-extrabold tracking-tight"
